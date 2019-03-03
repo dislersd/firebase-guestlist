@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "firebase": "^5.8.5"
+  }
+}
