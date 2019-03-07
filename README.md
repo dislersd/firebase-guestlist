@@ -28,4 +28,4 @@ With that accomplished, we can then init a new project in the current directory.
 
 `firebase init`
 
-
+This allows us to connect the codebase to the Firebase project we've set up in the console. 
