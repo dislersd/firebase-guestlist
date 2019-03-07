@@ -1,5 +1,6 @@
 {
   "devDependencies": {
-    "firebase": "^5.8.5"
+    "firebase": "^5.8.5",
+    "lodash": "^4.17.11"
   }
 }
