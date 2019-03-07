@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>GuestList</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>GuestList</h1>
+        <div id="app">
+            <div id="events-list"></div>
+            <div id="guests-list"></div>
+            <form id="add-guest">
+                <h2>Add Guest</h2>   
+                <label for="new-guest-first">First Name</label>             
+                <input 
+                    type="text" 
+                    id="new-guest-first" 
+                    name="new-guest-first" 
+                />
+                <label for="new-guest-last">Last Name</label>             
+                <input 
+                    type="text" 
+                    id="new-guest-last" 
+                    name="new-guest-last" 
+                />
+                <label for="new-guest-email">Email</label>             
+                <input 
+                    type="email" 
+                    id="new-guest-email" 
+                    name="new-guest-email" 
+                />
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <script src="index.js"></script>
+    </body>
+</html>
