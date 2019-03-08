@@ -4,18 +4,21 @@ import {renderEvents, renderGuests} from "./render";
 const addGuest = (e, state) => {
     event.preventDefault();
     console.log("Add Guest");
-    const firstName = document.getElementById("new-guest-first").value;
-    const lastName = document.getElementById("new-guest-last").value;
-    const email = document.getElementById("new-guest-email").value;
+    const firstNameField = document.getElementById("new-guest-first");
+    const lastNameField = document.getElementById("new-guest-last");
+    const emailField = document.getElementById("new-guest-email");
     state.db.collection(`users/${state.user.id}/events/${state.selectedEvent}/guests`)
     .add({
-        firstName,
-        lastName,
-        email,
+        firstName: firstNameField.value,
+        lastName: lastNameField.value,
+        email: emailField.value,
         arrived: false
     })
     .then( () => {
-        console.log(`Added ${email}`);
+        console.log(`Added ${emailField.value}`);
+        firstNameField.value = "";
+        lastNameField.value = "";
+        emailField.value = "";
     });
 }
 
