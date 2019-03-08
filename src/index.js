@@ -1,6 +1,6 @@
 import firebase from "firebase";
 import config from "./config";
-import {getUser, getEvents, renderEvents, addGuest} from "./lib";
+import {getUser, getEvents, renderEvents, addGuest, addEvent} from "./lib";
 
 const state = {
     db: null,
@@ -34,5 +34,10 @@ firebase.auth().signInWithPopup(provider)
     console.error(err);
 });
 
-document.getElementById("add-guest").addEventListener("submit", (e) => addGuest(e, state));
+// Add form listeners
+document.getElementById("add-guest")
+.addEventListener("submit", e => addGuest(e, state));
+
+document.getElementById("add-event")
+.addEventListener("submit", e => addEvent(e, state));
 
