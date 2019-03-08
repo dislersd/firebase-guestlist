@@ -22,6 +22,20 @@ const addGuest = (e, state) => {
     });
 }
 
+const addEvent = (e, state) => {
+    event.preventDefault();
+    console.log("Add Event");
+    const eventNameField = document.getElementById("new-event-name");
+    state.db.collection(`users/${state.user.id}/events`)
+    .add({
+        name: eventNameField.value
+    })
+    .then( () => {
+        console.log(`Added ${eventNameField.value}`);
+        eventNameField.value = "";
+    });
+}
+
 const getUser = (state, email, callback) => {
     state.db.collection("users")
     .where("email", "==", email)
@@ -49,6 +63,7 @@ const getGuests = (state, eventId, callback) => {
     state.db.collection(`users/${state.user.id}/events/${eventId}/guests`)
     .onSnapshot(snapshot => {
         let guests = {};
+        if(snapshot.empty) { return guests; }
         snapshot.forEach(record => {
             guests[record.id] = record.data();
             return callback(guests);
@@ -64,5 +79,6 @@ export {
     getGuests,
     renderEvents,
     renderGuests,
-    addGuest
+    addGuest,
+    addEvent
 }
