@@ -1,7 +1,7 @@
 import {getGuests} from "./lib";
 import {renderGuests} from "./render";
 
-const deleteButton = (state, guestId) => {
+const deleteGuestButton = (state, guestId) => {
     const btn = document.createElement("button");
     btn.appendChild(
         document.createTextNode("x")
@@ -9,6 +9,19 @@ const deleteButton = (state, guestId) => {
     btn.addEventListener("click", () => {
         state.db.collection(`users/${state.user.id}/events/${state.selectedEvent}/guests`)
         .doc(guestId)
+        .delete();
+    });
+    return btn;
+}
+
+const deleteEventButton = (state, eventId) => {
+    const btn = document.createElement("button");
+    btn.appendChild(
+        document.createTextNode("x")
+    );
+    btn.addEventListener("click", () => {
+        state.db.collection(`users/${state.user.id}/events`)
+        .doc(eventId)
         .delete();
     });
     return btn;
@@ -39,7 +52,7 @@ const guestListItem = (state, guest, id) => {
     );
     item.appendChild(heading);
     item.appendChild(checkBox(state, guest, id));
-    item.appendChild(deleteButton(state, id));
+    item.appendChild(deleteGuestButton(state, id));
     
     return item;
 }
@@ -53,6 +66,7 @@ const eventListItem = (state, event, id) => {
         document.createTextNode(event.name)
     );
     item.appendChild(heading);
+    item.appendChild(deleteEventButton(state, id));
     item.addEventListener("click", () => {
         state.selectedEvent = id;
         getGuests(state, id, guests => {
