@@ -2,33 +2,55 @@
     <head>
         <title>GuestList</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="index.css" />
     </head>
     <body>
         <h1>GuestList</h1>
         <div id="app">
-            <div id="events-list"></div>
-            <div id="guests-list"></div>
+            <div id="events-list" class="app-section"></div>
+            <form id="add-event">
+                <h2>Add Event</h2>
+                <div class="form-item">
+                    <label for="new-event-name">Event Name</label>
+                    <input 
+                        type="text"
+                        name="new-event-name"
+                    />
+                </div>
+                <div class="form-item">
+                    <button type="submit">Add Event</button>
+                </div>
+            </form>
+            <div id="guests-list" class="app-section"></div>
             <form id="add-guest">
-                <h2>Add Guest</h2>   
-                <label for="new-guest-first">First Name</label>             
-                <input 
-                    type="text" 
-                    id="new-guest-first" 
-                    name="new-guest-first" 
-                />
-                <label for="new-guest-last">Last Name</label>             
-                <input 
-                    type="text" 
-                    id="new-guest-last" 
-                    name="new-guest-last" 
-                />
-                <label for="new-guest-email">Email</label>             
-                <input 
-                    type="email" 
-                    id="new-guest-email" 
-                    name="new-guest-email" 
-                />
-                <button type="submit">Submit</button>
+                <h2>Add Guest</h2>
+                <div class="form-item">
+                    <label for="new-guest-first">First Name</label>             
+                    <input 
+                        type="text" 
+                        id="new-guest-first" 
+                        name="new-guest-first" 
+                    />
+                </div>
+                <div class="form-item">
+                    <label for="new-guest-last">Last Name</label>             
+                    <input 
+                        type="text" 
+                        id="new-guest-last" 
+                        name="new-guest-last" 
+                    />
+                </div>   
+                <div class="form-item">
+                    <label for="new-guest-email">Email</label>             
+                    <input 
+                        type="email" 
+                        id="new-guest-email" 
+                        name="new-guest-email" 
+                    />
+                </div>
+                <div class="form-item">
+                    <button type="submit">Add Guest</button>
+                </div>
             </form>
         </div>
         <script src="index.js"></script>
