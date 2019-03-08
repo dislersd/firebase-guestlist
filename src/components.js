@@ -32,15 +32,12 @@ const checkBox = (state, guest, id) => {
 
 const guestListItem = (state, guest, id) => {
     const item = document.createElement("div");
-    item.setAttribute("class", "guest-list-item");
-    item.appendChild(
-        document.createElement("p")
-        .appendChild(
-            document.createTextNode(
-                `${guest.lastName}, ${guest.firstName}`
-            )
-        )
+    const heading = document.createElement("h5");
+    item.classList.add("list-item");
+    heading.appendChild(
+        document.createTextNode(`${guest.lastName}, ${guest.firstName}`)
     );
+    item.appendChild(heading);
     item.appendChild(checkBox(state, guest, id));
     item.appendChild(deleteButton(state, id));
     
@@ -48,11 +45,14 @@ const guestListItem = (state, guest, id) => {
 }
 
 const eventListItem = (state, event, id) => {
-    const item = document.createElement("h4")
-    item.
+    const item = document.createElement("div");
+    item.classList.add("list-item");
+    const heading = document.createElement("h4");
+    heading.
     appendChild(
         document.createTextNode(event.name)
     );
+    item.appendChild(heading);
     item.addEventListener("click", () => {
         state.selectedEvent = id;
         getGuests(state, id, guests => {
