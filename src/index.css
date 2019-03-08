@@ -1,0 +1,31 @@
+body {
+    font-family: sans-serif;
+}
+
+.app-section {
+    background: #dfdfdf;
+    padding: 5px;
+    margin: 4px 0px;
+    box-shadow: 0px 1px 1px #afafaf;
+}
+
+.list-item {
+    background: #cfcfcf;
+    padding: 3px;
+    margin: 2px 0px;
+    transition: background 0.3s;
+}
+.list-item:hover {
+    background: #efefef;
+    cursor: pointer;
+}
+
+.arrived {
+    text-decoration: line-through;
+}
+
+
+.list-item h4,h5 {
+    display: inline-block;
+    margin: 0;
+}
