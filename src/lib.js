@@ -36,15 +36,23 @@ const addEvent = (e, state) => {
     });
 }
 
-const getUser = (state, email, callback) => {
+const getUser = (state, user, callback) => {
+    console.log(user);
     state.db.collection("users")
-    .where("email", "==", email)
-    .onSnapshot(snapshot => {
-            snapshot.forEach(record => {
-                return callback(record);  // Yeah it's a loop but we only need the first one               
-            })
-        }
-    )
+    .doc(user.uid)
+    .set({
+        email: user.email
+    })
+    .then( () => {
+        state.db.collection("users")
+        .onSnapshot(snapshot => {
+                snapshot.forEach(record => {
+                    return callback(record);  // Yeah it's a loop but we only need the first one               
+                })
+            }
+        );
+    });
+    
 }
 
 const getEvents = (state, callback) => {
@@ -63,7 +71,10 @@ const getGuests = (state, eventId, callback) => {
     state.db.collection(`users/${state.user.id}/events/${eventId}/guests`)
     .onSnapshot(snapshot => {
         let guests = {};
-        if(snapshot.empty) { return guests; }
+        if(snapshot.empty) { 
+            console.log("EMPTY GUESTLIST");
+            return callback(guests); 
+        }
         snapshot.forEach(record => {
             guests[record.id] = record.data();
             return callback(guests);

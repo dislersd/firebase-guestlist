@@ -21,7 +21,7 @@ firebase.auth().signInWithPopup(provider)
     // After auth, we initialize the database and get the user's specific data
     // console.log(res);
     state.db = firebase.firestore();
-    getUser(state, res.user.email, (user) => {
+    getUser(state, res.user, (user) => {
         state.user = user;
         state.signedIn = true;
         getEvents(state, (events) => {
