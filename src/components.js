@@ -1,13 +1,38 @@
 import {getGuests} from "./lib";
 import {renderGuests} from "./render";
 
+const iconElement = (icon) => {
+    const iconEl = document.createElement("i");
+    iconEl.classList.add("material-icons");
+    iconEl.appendChild(
+        document.createTextNode(icon)
+    );
+    return iconEl;
+}
+
+const mailButton = (guest) => {
+    const link = document.createElement("a");
+    link.setAttribute("href", `mailto:${guest.email}`);
+    const btn = document.createElement("button");
+    btn.classList.add("primary");
+    btn.setAttribute("type","button");
+    const iconEl = document.createElement("i");
+    iconEl.classList.add("material-icons");
+    iconEl.appendChild(
+        document.createTextNode("email")
+    );
+    btn.appendChild(iconEl);
+    link.appendChild(btn);
+    return link;
+}
+
 const deleteGuestButton = (state, guestId) => {
     const btn = document.createElement("button");
-    btn.appendChild(
-        document.createTextNode("x")
-    );
+    
+    btn.classList.add("warning")
+    btn.appendChild(iconElement("delete"));
     btn.addEventListener("click", () => {
-        state.db.collection(`users/${state.user.id}/events/${state.selectedEvent}/guests`)
+        state.db.collection(`users/${state.user.uid}/events/${state.selectedEvent}/guests`)
         .doc(guestId)
         .delete();
     });
@@ -16,11 +41,10 @@ const deleteGuestButton = (state, guestId) => {
 
 const deleteEventButton = (state, eventId) => {
     const btn = document.createElement("button");
-    btn.appendChild(
-        document.createTextNode("x")
-    );
+    btn.classList.add("warning");
+    btn.appendChild(iconElement("delete"));
     btn.addEventListener("click", () => {
-        state.db.collection(`users/${state.user.id}/events`)
+        state.db.collection(`users/${state.user.uid}/events`)
         .doc(eventId)
         .delete();
     });
@@ -30,10 +54,10 @@ const deleteEventButton = (state, eventId) => {
 const checkBox = (state, guest, id) => {
     const cb = document.createElement("input");
     cb.setAttribute("type","checkbox");
+    cb.id = id;
     cb.checked = guest.arrived;
     cb.addEventListener("change", () => {
-        const path = `users/${state.user.id}/events/${state.selectedEvent}/guests`;
-        console.log(path);
+        const path = `users/${state.user.uid}/events/${state.selectedEvent}/guests`;
         state.db.collection(path)
         .doc(id)
         .set({
@@ -45,13 +69,15 @@ const checkBox = (state, guest, id) => {
 
 const guestListItem = (state, guest, id) => {
     const item = document.createElement("div");
-    const heading = document.createElement("h5");
+    const label = document.createElement("label");
+    label.setAttribute("for",id);
     item.classList.add("list-item");
-    heading.appendChild(
+    label.appendChild(
         document.createTextNode(`${guest.lastName}, ${guest.firstName}`)
     );
-    item.appendChild(heading);
+    item.appendChild(label);
     item.appendChild(checkBox(state, guest, id));
+    item.appendChild(mailButton(guest));
     item.appendChild(deleteGuestButton(state, id));
     
     return item;

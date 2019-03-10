@@ -7,7 +7,7 @@ const addGuest = (e, state) => {
     const firstNameField = document.getElementById("new-guest-first");
     const lastNameField = document.getElementById("new-guest-last");
     const emailField = document.getElementById("new-guest-email");
-    state.db.collection(`users/${state.user.id}/events/${state.selectedEvent}/guests`)
+    state.db.collection(`users/${state.user.uid}/events/${state.selectedEvent}/guests`)
     .add({
         firstName: firstNameField.value,
         lastName: lastNameField.value,
@@ -26,7 +26,7 @@ const addEvent = (e, state) => {
     event.preventDefault();
     console.log("Add Event");
     const eventNameField = document.getElementById("new-event-name");
-    state.db.collection(`users/${state.user.id}/events`)
+    state.db.collection(`users/${state.user.uid}/events`)
     .add({
         name: eventNameField.value
     })
@@ -37,7 +37,6 @@ const addEvent = (e, state) => {
 }
 
 const getUser = (state, user, callback) => {
-    console.log(user);
     state.db.collection("users")
     .doc(user.uid)
     .set({
@@ -45,18 +44,19 @@ const getUser = (state, user, callback) => {
     })
     .then( () => {
         state.db.collection("users")
+        .doc(user.uid)
         .onSnapshot(snapshot => {
-                snapshot.forEach(record => {
-                    return callback(record);  // Yeah it's a loop but we only need the first one               
-                })
+                let record = snapshot.data();
+                record.uid = user.uid;
+                callback(record);
             }
-        );
+        )
     });
     
 }
 
 const getEvents = (state, callback) => {
-    const id = state.user.id;
+    const id = state.user.uid;
     state.db.collection(`users/${id}/events`)
     .onSnapshot(snapshot => {
         let events = {};
@@ -68,7 +68,7 @@ const getEvents = (state, callback) => {
 }
 
 const getGuests = (state, eventId, callback) => {
-    state.db.collection(`users/${state.user.id}/events/${eventId}/guests`)
+    state.db.collection(`users/${state.user.uid}/events/${eventId}/guests`)
     .onSnapshot(snapshot => {
         let guests = {};
         if(snapshot.empty) { 
