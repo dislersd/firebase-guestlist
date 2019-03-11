@@ -9,17 +9,25 @@ const clearNode = node => {
 }
 
 const renderGuests = state => {
-    console.log(state.guests);
     const guestsDiv = document.getElementById("guests-list");
     const heading = document.createElement("h3");
-    heading.appendChild(document.createTextNode("Guests"));
+    console.log(state.selectedEvent);
+    const headerString = state.selectedEvent !== null ? `Guests: ${state.events[state.selectedEvent].name}` : "Guests";
+    heading.appendChild(document.createTextNode(headerString));
     clearNode(guestsDiv);
     guestsDiv.appendChild(heading);
-    _.forEach(state.guests, (guest, id) => {
+    console.log(state.guests);
+    if(_.isEmpty(state.guests)) {
         guestsDiv.appendChild(
-            guestListItem(state, guest, id)
+            document.createTextNode("No guests for this event!")
         );
-    })
+    } else {
+        _.forEach(state.guests, (guest, id) => {
+            guestsDiv.appendChild(
+                guestListItem(state, guest, id)
+            );
+        })
+    }
 }
 
 const renderEvents = state => {

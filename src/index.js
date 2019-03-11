@@ -1,4 +1,5 @@
 import firebase from "firebase";
+import _ from "lodash";
 import config from "./config";
 import {getUser, getEvents, renderEvents, addGuest, addEvent} from "./lib";
 
@@ -26,6 +27,9 @@ firebase.auth().signInWithPopup(provider)
         state.signedIn = true;
         getEvents(state, (events) => {
             state.events = events;
+            if(_.keys(state.events).indexOf(state.selectedEvent) < 0) {
+                state.selectedEvent = null;
+            }
             renderEvents(state);
         })
     }); 
