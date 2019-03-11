@@ -16,7 +16,6 @@ const renderGuests = state => {
     heading.appendChild(document.createTextNode(headerString));
     clearNode(guestsDiv);
     guestsDiv.appendChild(heading);
-    console.log(state.guests);
     if(_.isEmpty(state.guests)) {
         guestsDiv.appendChild(
             document.createTextNode("No guests for this event!")
