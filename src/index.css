@@ -1,11 +1,13 @@
 body {
     font-family: sans-serif;
+    font-size: 14px;
 }
 
 button {
     border: none;
     margin: 0px 3px;
     color: white;
+    padding: 3px;
 }
 
 .material-icons {
