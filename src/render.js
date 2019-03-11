@@ -1,14 +1,15 @@
+import firebase from "firebase";
 import _ from "lodash";
-import {getGuests} from "./lib";
+import {getGuests, getEvents, getUser} from "./lib";
 import {guestListItem, eventListItem} from "./components";
 
-const clearNode = node => {
+const clearNode = (node) => {
     while(node.hasChildNodes()) {
         node.removeChild(node.lastChild);
     }
 }
 
-const renderGuests = state => {
+const renderGuests = (state) => {
     const guestsDiv = document.getElementById("guests-list");
     const heading = document.createElement("h3");
     console.log(state.selectedEvent);
@@ -29,7 +30,7 @@ const renderGuests = state => {
     }
 }
 
-const renderEvents = state => {
+const renderEvents = (state) => {
     const eventsDiv = document.getElementById("events-list");
     const heading = document.createElement("h2");
     heading.appendChild(document.createTextNode("Events"));
@@ -41,7 +42,56 @@ const renderEvents = state => {
     });
 }
 
+const renderApp = (state, res) => {
+    getUser(state, res.user, (user) => {
+        state.user = user;
+        state.signedIn = true;
+        getEvents(state, (events) => {
+            state.events = events;
+            if(_.keys(state.events).indexOf(state.selectedEvent) < 0) {
+                state.selectedEvent = null;
+            }
+            renderUserInfo(state);
+            renderEvents(state);
+        })
+    }); 
+}
+
+const renderUserInfo = (state) => {
+    const userDiv = document.getElementById("user-info");
+    if(state.signedIn) {
+        clearNode(userDiv);
+        const userText = document.createElement("p");
+        userText.appendChild(
+            document.createTextNode(`Signed in as ${state.user.email}`)
+        );
+        userDiv.appendChild(userText);
+    } else {
+        const loginButton = document.createElement("button");
+        loginButton.classList.add("primary");
+        loginButton.appendChild(
+            document.createTextNode("Log In")
+        );
+        loginButton.addEventListener("click", () => {
+            // Create the Google Sign-in provider and fire the pop-up
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider)
+            .then(authResult => {
+                // After auth, we initialize the database and get the user's specific data
+                // console.log(res);
+                state.db = firebase.firestore();   
+                renderApp(state, authResult);           
+            })
+            .catch(err => {
+                console.error(err);
+            });
+        });
+        userDiv.appendChild(loginButton);
+    }
+}
+
 export {
     renderEvents,
-    renderGuests
+    renderGuests,
+    renderUserInfo
 }

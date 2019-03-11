@@ -1,7 +1,8 @@
 import firebase from "firebase";
 import _ from "lodash";
 import config from "./config";
-import {getUser, getEvents, renderEvents, addGuest, addEvent} from "./lib";
+import {getUser, getEvents, addGuest, addEvent} from "./lib";
+import { renderUserInfo } from "./render";
 
 const state = {
     db: null,
@@ -15,28 +16,9 @@ const state = {
 // We start by initializing the Firebase App
 firebase.initializeApp(config);
 
-// Create the Google Sign-in provider and fire the pop-up
-const provider = new firebase.auth.GoogleAuthProvider();
-firebase.auth().signInWithPopup(provider)
-.then(res => {
-    // After auth, we initialize the database and get the user's specific data
-    // console.log(res);
-    state.db = firebase.firestore();
-    getUser(state, res.user, (user) => {
-        state.user = user;
-        state.signedIn = true;
-        getEvents(state, (events) => {
-            state.events = events;
-            if(_.keys(state.events).indexOf(state.selectedEvent) < 0) {
-                state.selectedEvent = null;
-            }
-            renderEvents(state);
-        })
-    }); 
-})
-.catch(err => {
-    console.error(err);
-});
+renderUserInfo(state);
+
+
 
 // Add form listeners
 document.getElementById("add-guest")
