@@ -14,6 +14,7 @@ And then change to that directory.
 If you haven't already, you'll need to install the Firebase CLI tools to interact with your Firebase project from the command line.
 
 `yarn global add firebase-tools`
+
 or
 
 `npm install -g firebase-tools`
