@@ -29,4 +29,7 @@ With that accomplished, we can then init a new project in the current directory.
 
 `firebase init`
 
+## Bundler
+
+We use [parcelJS](https://parceljs.org/) for our JS bundler/transpiler. Download/install it before we get to work.
 
