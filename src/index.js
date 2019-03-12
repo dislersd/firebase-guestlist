@@ -1,7 +1,7 @@
 import firebase from "firebase";
 import _ from "lodash";
 import config from "./config";
-import {getUser, getEvents, addGuest, addEvent} from "./lib";
+import {addGuest, addEvent} from "./lib";
 import { renderUserInfo } from "./render";
 
 const state = {
@@ -16,10 +16,6 @@ const state = {
 // We start by initializing the Firebase App
 firebase.initializeApp(config);
 
-renderUserInfo(state);
-
-
-
 // Add form listeners
 document.getElementById("add-guest")
 .addEventListener("submit", e => addGuest(e, state));
@@ -27,3 +23,5 @@ document.getElementById("add-guest")
 document.getElementById("add-event")
 .addEventListener("submit", e => addEvent(e, state));
 
+// We kick off by rendering the user info div: a login button
+renderUserInfo(state);
