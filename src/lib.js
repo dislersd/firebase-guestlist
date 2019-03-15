@@ -26,7 +26,8 @@ const addEvent = (e, state) => {
     event.preventDefault();
     console.log("Add Event");
     const eventNameField = document.getElementById("new-event-name");
-    state.db.collection(`users/${state.user.uid}/events`)
+    const path = (`users/${state.user.uid}/events`);
+    state.db.collection(path)
     .add({
         name: eventNameField.value
     })
@@ -57,7 +58,8 @@ const getUser = (state, user, callback) => {
 
 const getEvents = (state, callback) => {
     const id = state.user.uid;
-    state.db.collection(`users/${id}/events`)
+    const path = (`users/${id}/events`)
+    state.db.collection(path)
     .onSnapshot(snapshot => {
         let events = {};
         snapshot.forEach(record => {
@@ -68,7 +70,8 @@ const getEvents = (state, callback) => {
 }
 
 const getGuests = (state, eventId, callback) => {
-    state.db.collection(`users/${state.user.uid}/events/${eventId}/guests`)
+    const path = `users/${state.user.uid}/events/${eventId}/guests`;
+    state.db.collection(path)
     .onSnapshot(snapshot => {
         let guests = {};
         if(snapshot.empty) { 
