@@ -1,5 +1,4 @@
-import {login, getGuests, checkIn} from "./lib";
-import {renderGuests, renderApp} from "./render";
+import {login, getGuests, selectEvent, checkIn} from "./lib";
 
 const iconElement = (icon) => {
     const iconEl = document.createElement("i");
@@ -113,11 +112,7 @@ const eventListItem = (state, event, id) => {
     item.appendChild(heading);
     item.appendChild(deleteEventButton(state, id));
     item.addEventListener("click", () => {
-        state.selectedEvent = id;
-        getGuests(state, id, guests => {
-            state.guests = guests;
-            renderGuests(state);
-        });
+        selectEvent(state, id);
     });
     return item;
 }

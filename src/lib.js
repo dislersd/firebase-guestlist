@@ -84,6 +84,14 @@ const getEvents = (state, callback) => {
     });
 }
 
+const selectEvent = (state, id) => {
+    state.selectedEvent = id;
+    getGuests(state, id, guests => {
+        state.guests = guests;
+        renderGuests(state);
+    });
+}
+
 const getGuests = (state, eventId, callback) => {
     const path = `users/${state.user.uid}/events/${eventId}/guests`;
     state.db.collection(path)
@@ -115,6 +123,7 @@ export {
     login,
     getUser,
     getEvents,
+    selectEvent,
     getGuests,
     addGuest,
     addEvent,
