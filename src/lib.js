@@ -70,9 +70,14 @@ const checkIn = (state, guest, id) => {
 }
     
 export {
+    login,
     getUser,
     getEvents,
+    selectEvent,
     getGuests,
     addGuest,
-    addEvent
+    deleteGuest,
+    addEvent,
+    deleteEvent,
+    checkIn
 }
