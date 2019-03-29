@@ -1,4 +1,4 @@
-import {login, getGuests, selectEvent, checkIn, deleteEvent, deleteGuest} from "./lib";
+import {login, selectEvent, checkIn, deleteEvent, deleteGuest} from "./lib";
 
 const iconElement = (icon) => {
     const iconEl = document.createElement("i");
