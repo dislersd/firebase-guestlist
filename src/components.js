@@ -1,6 +1,4 @@
-import firebase from "firebase";
-import {getGuests} from "./lib";
-import {renderGuests, renderApp} from "./render";
+import {login, getGuests, selectEvent, checkIn, deleteEvent, deleteGuest} from "./lib";
 
 const iconElement = (icon) => {
     const iconEl = document.createElement("i");
@@ -18,18 +16,7 @@ const loginButton = (state) => {
         document.createTextNode("Log In")
     );
     btn.addEventListener("click", () => {
-        // Create the Google Sign-in provider and fire the pop-up
-        const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider)
-        .then(authResult => {
-            // After auth, we initialize the database and get the user's specific data
-            // console.log(res);
-            state.db = firebase.firestore();   
-            renderApp(state, authResult);           
-        })
-        .catch(err => {
-            console.error(err);
-        });
+        login(state);
     });
     return btn;
 }
@@ -63,9 +50,7 @@ const deleteGuestButton = (state, guestId) => {
     btn.classList.add("warning")
     btn.appendChild(iconElement("delete"));
     btn.addEventListener("click", () => {
-        state.db.collection(`users/${state.user.uid}/events/${state.selectedEvent}/guests`)
-        .doc(guestId)
-        .delete();
+        deleteGuest(state, guestId);
     });
     return btn;
 }
@@ -75,9 +60,7 @@ const deleteEventButton = (state, eventId) => {
     btn.classList.add("warning");
     btn.appendChild(iconElement("delete"));
     btn.addEventListener("click", () => {
-        state.db.collection(`users/${state.user.uid}/events`)
-        .doc(eventId)
-        .delete();
+        deleteEvent(state, eventId);
     });
     return btn;
 }
@@ -88,12 +71,7 @@ const checkBox = (state, guest, id) => {
     cb.id = id;
     cb.checked = guest.arrived;
     cb.addEventListener("change", () => {
-        const path = `users/${state.user.uid}/events/${state.selectedEvent}/guests`;
-        state.db.collection(path)
-        .doc(id)
-        .set({
-            arrived: !guest.arrived
-        }, {merge: true});
+        checkIn(state, guest, id);
     });
     return cb;
 }
@@ -130,11 +108,7 @@ const eventListItem = (state, event, id) => {
     item.appendChild(heading);
     item.appendChild(deleteEventButton(state, id));
     item.addEventListener("click", () => {
-        state.selectedEvent = id;
-        getGuests(state, id, guests => {
-            state.guests = guests;
-            renderGuests(state);
-        });
+        selectEvent(state, id);
     });
     return item;
 }
