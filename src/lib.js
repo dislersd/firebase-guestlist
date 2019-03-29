@@ -48,6 +48,13 @@ const getEvents = (state, callback) => {
     // Callback the events object
 }
 
+const selectEvent = (state, id) => {
+    // Set state.selectedEvent
+    // Trigger getGuests 
+    // Callback attaching guests to state
+    // Trigger renderGuests
+}
+
 const getGuests = (state, eventId, callback) => {
     console.log("Get Guests");
     // Set real-time updates on users/uid/events/eventId/guests
