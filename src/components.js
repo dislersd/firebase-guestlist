@@ -1,5 +1,4 @@
-import firebase from "firebase";
-import {getGuests} from "./lib";
+import {login, getGuests, checkIn} from "./lib";
 import {renderGuests, renderApp} from "./render";
 
 const iconElement = (icon) => {
@@ -18,18 +17,7 @@ const loginButton = (state) => {
         document.createTextNode("Log In")
     );
     btn.addEventListener("click", () => {
-        // Create the Google Sign-in provider and fire the pop-up
-        const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider)
-        .then(authResult => {
-            // After auth, we initialize the database and get the user's specific data
-            // console.log(res);
-            state.db = firebase.firestore();   
-            renderApp(state, authResult);           
-        })
-        .catch(err => {
-            console.error(err);
-        });
+        login(state);
     });
     return btn;
 }
@@ -88,12 +76,7 @@ const checkBox = (state, guest, id) => {
     cb.id = id;
     cb.checked = guest.arrived;
     cb.addEventListener("change", () => {
-        const path = `users/${state.user.uid}/events/${state.selectedEvent}/guests`;
-        state.db.collection(path)
-        .doc(id)
-        .set({
-            arrived: !guest.arrived
-        }, {merge: true});
+        checkIn(state, guest, id);
     });
     return cb;
 }

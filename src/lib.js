@@ -1,5 +1,20 @@
+import firebase from "firebase";
 import _ from "lodash";
-import {renderEvents, renderGuests} from "./render";
+import {renderApp, renderEvents, renderGuests} from "./render";
+
+const login = (state) => {
+    // Create the Google Sign-in provider and fire the pop-up
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider)
+    .then(authResult => {
+        // After auth, we initialize the database and get the user's specific data
+        state.db = firebase.firestore();   
+        renderApp(state, authResult);           
+    })
+    .catch(err => {
+        console.error(err);
+    });
+}
 
 const addGuest = (e, state) => {
     event.preventDefault();
@@ -85,12 +100,23 @@ const getGuests = (state, eventId, callback) => {
     });
 }
 
+const checkIn = (state, guest, id) => {
+    const path = `users/${state.user.uid}/events/${state.selectedEvent}/guests`;
+    state.db.collection(path)
+    .doc(id)
+    .set({
+        arrived: !guest.arrived
+    }, {merge: true});
+}
+
 
     
 export {
+    login,
     getUser,
     getEvents,
     getGuests,
     addGuest,
-    addEvent
+    addEvent,
+    checkIn
 }
