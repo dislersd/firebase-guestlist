@@ -29,6 +29,11 @@ const addEvent = (e, state) => {
     // Reset field value
 }
 
+const deleteEvent = (state, eventId) => {
+    const path = `users/${state.user.uid}/events`;
+    // Delete document from the correct path
+}
+
 const getUser = (state, user, callback) => {
     console.log("Get User");
     // set users/uid to email
