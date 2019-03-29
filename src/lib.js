@@ -1,5 +1,6 @@
+import firebase from "firebase";
 import _ from "lodash";
-import {renderEvents, renderGuests} from "./render";
+import {renderApp, renderEvents, renderGuests} from "./render";
 
 const login = (state) => {
     // Create the Google Sign-in provider and fire the pop-up
