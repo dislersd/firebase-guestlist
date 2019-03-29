@@ -16,6 +16,11 @@ const addGuest = (e, state) => {
     // Reset form values
 }
 
+const deleteGuest = (state, guestId) => {
+    const path = `users/${state.user.uid}/events/${state.selectedEvent}/guests`;
+    // Delete document from the correct path
+}
+
 const addEvent = (e, state) => {
     event.preventDefault();
     console.log("Add Event");
