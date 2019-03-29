@@ -1,6 +1,13 @@
 import _ from "lodash";
 import {renderEvents, renderGuests} from "./render";
 
+const login = (state) => {
+    // Create the Google Sign-in provider and fire the pop-up
+    const provider = new firebase.auth.GoogleAuthProvider();
+    // Trigger the Google popup signin
+    // Callback with the result, attaching to state
+}
+
 const addGuest = (e, state) => {
     event.preventDefault();
     console.log("Add Guest");
