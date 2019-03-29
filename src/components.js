@@ -1,4 +1,4 @@
-import {login, getGuests, selectEvent, checkIn} from "./lib";
+import {login, getGuests, selectEvent, checkIn, deleteEvent, deleteGuest} from "./lib";
 
 const iconElement = (icon) => {
     const iconEl = document.createElement("i");
@@ -50,9 +50,7 @@ const deleteGuestButton = (state, guestId) => {
     btn.classList.add("warning")
     btn.appendChild(iconElement("delete"));
     btn.addEventListener("click", () => {
-        state.db.collection(`users/${state.user.uid}/events/${state.selectedEvent}/guests`)
-        .doc(guestId)
-        .delete();
+        deleteGuest(state, guestId);
     });
     return btn;
 }
@@ -62,9 +60,7 @@ const deleteEventButton = (state, eventId) => {
     btn.classList.add("warning");
     btn.appendChild(iconElement("delete"));
     btn.addEventListener("click", () => {
-        state.db.collection(`users/${state.user.uid}/events`)
-        .doc(eventId)
-        .delete();
+        deleteEvent(state, eventId);
     });
     return btn;
 }

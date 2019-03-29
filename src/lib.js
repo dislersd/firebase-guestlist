@@ -37,6 +37,13 @@ const addGuest = (e, state) => {
     });
 }
 
+const deleteGuest = (state, guestId) => {
+    const path = `users/${state.user.uid}/events/${state.selectedEvent}/guests`;
+    state.db.collection(path)
+        .doc(guestId)
+        .delete();
+}
+
 const addEvent = (e, state) => {
     event.preventDefault();
     console.log("Add Event");
@@ -50,6 +57,13 @@ const addEvent = (e, state) => {
         console.log(`Added ${eventNameField.value}`);
         eventNameField.value = "";
     });
+}
+
+const deleteEvent = (state, eventId) => {
+    const path = `users/${state.user.uid}/events`;
+    state.db.collection(path)
+        .doc(eventId)
+        .delete();
 }
 
 const getUser = (state, user, callback) => {
@@ -126,6 +140,8 @@ export {
     selectEvent,
     getGuests,
     addGuest,
+    deleteGuest,
     addEvent,
+    deleteEvent,
     checkIn
 }
