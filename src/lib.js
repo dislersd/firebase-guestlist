@@ -64,7 +64,10 @@ const getGuests = (state, eventId, callback) => {
     // callback the guests object
 }
 
-
+const checkIn = (state, guest, id) => {
+    const path = `users/${state.user.uid}/events/${state.selectedEvent}/guests`;
+    // Toggle arrived for correct document
+}
     
 export {
     getUser,
