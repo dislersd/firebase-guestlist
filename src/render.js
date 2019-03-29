@@ -1,7 +1,7 @@
 import firebase from "firebase";
 import _ from "lodash";
 import {getGuests, getEvents, getUser} from "./lib";
-import {guestListItem, eventListItem} from "./components";
+import {loginButton, guestsHeading, eventsHeading, guestListItem, eventListItem} from "./components";
 
 const clearNode = (node) => {
     while(node.hasChildNodes()) {
@@ -11,11 +11,8 @@ const clearNode = (node) => {
 
 const renderGuests = (state) => {
     const guestsDiv = document.getElementById("guests-list");
-    const heading = document.createElement("h3");
-    console.log(state.selectedEvent);
-    const headerString = state.selectedEvent !== null ? `Guests: ${state.events[state.selectedEvent].name}` : "Guests";
-    heading.appendChild(document.createTextNode(headerString));
     clearNode(guestsDiv);
+    const heading = guestsHeading(state);
     guestsDiv.appendChild(heading);
     if(_.isEmpty(state.guests)) {
         guestsDiv.appendChild(
@@ -32,9 +29,8 @@ const renderGuests = (state) => {
 
 const renderEvents = (state) => {
     const eventsDiv = document.getElementById("events-list");
-    const heading = document.createElement("h2");
-    heading.appendChild(document.createTextNode("Events"));
     clearNode(eventsDiv);
+    const heading = eventsHeading(state);
     eventsDiv.appendChild(heading);
     _.forEach(state.events, (event, id) => {
         const item = eventListItem(state, event, id);
@@ -67,30 +63,13 @@ const renderUserInfo = (state) => {
         );
         userDiv.appendChild(userText);
     } else {
-        const loginButton = document.createElement("button");
-        loginButton.classList.add("primary");
-        loginButton.appendChild(
-            document.createTextNode("Log In")
-        );
-        loginButton.addEventListener("click", () => {
-            // Create the Google Sign-in provider and fire the pop-up
-            const provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider)
-            .then(authResult => {
-                // After auth, we initialize the database and get the user's specific data
-                // console.log(res);
-                state.db = firebase.firestore();   
-                renderApp(state, authResult);           
-            })
-            .catch(err => {
-                console.error(err);
-            });
-        });
-        userDiv.appendChild(loginButton);
+        const btn = loginButton(state);
+        userDiv.appendChild(btn);
     }
 }
 
 export {
+    renderApp,
     renderEvents,
     renderGuests,
     renderUserInfo

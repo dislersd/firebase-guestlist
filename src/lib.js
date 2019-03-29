@@ -46,8 +46,6 @@ export {
     getUser,
     getEvents,
     getGuests,
-    renderEvents,
-    renderGuests,
     addGuest,
     addEvent
 }
