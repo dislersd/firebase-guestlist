@@ -4,8 +4,15 @@ import {renderApp, renderEvents, renderGuests} from "./render";
 
 const login = (state) => {
     // Create the Google Sign-in provider and fire the pop-up
+    const provider = new firebase.auth.GoogleAuthProvider();
     // Trigger the Google popup signin
+    firebase.auth().signInWithPopup(provider)
     // Callback with the result, attaching to state
+    .then( authResult => {
+        state.db = firebase.firestore();
+        renderApp(state, authResult);
+    })
+    .catch(err => {console.error(err)})
 }
 
 const addGuest = (e, state) => {
@@ -37,7 +44,21 @@ const deleteEvent = (state, eventId) => {
 const getUser = (state, user, callback) => {
     console.log("Get User");
     // set users/uid to email
+    state.db.collection("users")
+    .doc(user.id)
+    .set({
+        email: user.email
+    })
     // Then, set real-time updates on the same document
+    .then(() => {
+        state.db.collection('users')
+        .doc(user.uid)
+        .onSnapshot( snapshot => {
+            let record = snapshote.data();
+            record.uid = user.uid;
+            callback(record);
+        })
+    })
     // callback that record
 }
 
